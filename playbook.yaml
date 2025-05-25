@@ -1,7 +1,15 @@
-- name: Desktop
+- name: Android
   hosts: localhost
   tasks:
     - name: Install Android Studio
       ansible.builtin.package:
         name: android-studio
+        state: present
+
+- name: Web
+  hosts: localhost
+  tasks:
+    - name: Install Node 20
+      ansible.builtin.package:
+        name: node@20
         state: present
