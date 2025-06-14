@@ -13,3 +13,14 @@
       ansible.builtin.package:
         name: node@20
         state: present
+    - name: Install google-cloud-sdk
+      ansible.builtin.package:
+        name: google-cloud-sdk
+        state: present
+    - name: Install gke-gcloud-auth-plugin
+      ansible.builtin.command:
+        cmd: "gcloud components install gke-gcloud-auth-plugin"
+    - name: Install IntelliJ IDEA
+      ansible.builtin.package:
+        name: intellij-idea
+        state: present
