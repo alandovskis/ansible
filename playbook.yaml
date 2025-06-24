@@ -63,6 +63,10 @@
       ansible.builtin.package:
         name: ripgrep
         state: present
+    - name: Install rm replacement
+      ansible.builtin.package:
+        name: rm-improved
+        state: present
     - name: Install traceroute replacement
       ansible.builtin.package:
         name: trippy
