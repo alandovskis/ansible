@@ -1,0 +1,4 @@
+- name: Install Android Studio
+  ansible.builtin.package:
+    name: android-studio
+    state: present
