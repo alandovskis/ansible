@@ -23,7 +23,3 @@
   ansible.builtin.package:
     name: intellij-idea
     state: present
-- name: Install MongoDB
-  ansible.builtin.package:
-    name: mongodb-community
-    state: present
