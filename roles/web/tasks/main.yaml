@@ -1,14 +1,24 @@
-- name: Install Node 20
+- name: Install Node 22
   ansible.builtin.package:
-    name: node@20
+    name: node@22
     state: present
-- name: Install google-cloud-sdk
-  ansible.builtin.package:
-   name: google-cloud-sdk
-   state: present
+
+- name: Download Google Cloud SDK
+  ansible.builtin.get_url:
+     url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-darwin-arm.tar.gz
+     dest: ~/Downloads/google-cloud-sdk.tar.gz
+     checksum: sha256:f2b1d74fe8a4997f9e699f349282f69a23f11e9e37eb9d48e9d164f7a08ecd1d
+- name: Extract Google Cloud SDK
+  ansible.builtin.unarchive:
+    src: ~/Downloads/google-cloud-sdk.tar.gz
+    dest: ~/Downloads
+- name: Install Google Cloud SDK
+  ansible.builtin.shell:
+    cmd: ~/Downloads/google-cloud-sdk/install.sh
 - name: Install gke-gcloud-auth-plugin
   ansible.builtin.command:
    cmd: "gcloud components install gke-gcloud-auth-plugin"
+
 - name: Install IntelliJ IDEA
   ansible.builtin.package:
     name: intellij-idea
