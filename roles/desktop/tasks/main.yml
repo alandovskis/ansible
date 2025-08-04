@@ -54,3 +54,17 @@
   ansible.builtin.package:
     name: zoxide
     state: present
+- name: Install gnu-tar
+  ansible.builtin.package:
+    name: gnu-tar
+    state: present
+
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+
+- name: Install delta
+  ansible.builtin.package:
+    name: git-delta
+    state: present
