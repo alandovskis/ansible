@@ -1,0 +1,4 @@
+- name: Install CLion
+  ansible.builtin.package:
+    name: clion
+    state: present
