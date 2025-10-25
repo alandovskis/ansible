@@ -1,0 +1,59 @@
+- name: Install modern curl alternative
+  ansible.builtin.package:
+    name: curlie
+    state: present
+
+- name: Install DNS lookup tool
+  ansible.builtin.package:
+    name: doggo
+    state: present
+
+- name: Install HTTP client
+  ansible.builtin.package:
+    name: httpie
+    state: present
+
+- name: Install network testing tool
+  ansible.builtin.package:
+    name: iperf3
+    state: present
+
+- name: Install network interface tool
+  ansible.builtin.package:
+    name: iproute2mac
+    state: present
+
+- name: Install network security scanner
+  ansible.builtin.package:
+    name: masscan
+    state: present
+
+- name: Install network diagnostic tool
+  ansible.builtin.package:
+    name: mtr
+    state: present
+
+- name: Install network monitoring tool
+  ansible.builtin.package:
+    name: nethogs
+    state: present
+
+- name: Install network scanner
+  ansible.builtin.package:
+    name: nmap
+    state: present
+
+- name: Install SSH client
+  ansible.builtin.package:
+    name: openssh
+    state: present
+
+- name: Install tcpdump alternative
+  ansible.builtin.package:
+    name: tcpflow
+    state: present
+
+- name: Install wireless network scanner
+  ansible.builtin.package:
+    name: wifi-password
+    state: present
