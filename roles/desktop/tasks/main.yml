@@ -50,10 +50,25 @@
   ansible.builtin.package:
     name: Warp
     state: present
+- name: Install application launcher
+  ansible.builtin.package:
+    name: quicksilver
+    state: present
 - name: Install cd replacement
   ansible.builtin.package:
     name: zoxide
     state: present
+- name: Install direnv
+  ansible.builtin.package:
+    name: direnv
+    state: present
+- name: Configure direnv for zsh
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
+    regexp: '^eval "\\\\$(direnv hook zsh)"'
+    line: 'eval "$(direnv hook zsh)"'
+    insertafter: EOF
+    create: true
 - name: Install gnu-tar
   ansible.builtin.package:
     name: gnu-tar
