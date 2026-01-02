@@ -83,3 +83,8 @@
   ansible.builtin.package:
     name: git-delta
     state: present
+
+- name: Install GNU Stow
+  ansible.builtin.package:
+    name: stow
+    state: present
