@@ -62,6 +62,30 @@
   ansible.builtin.package:
     name: direnv
     state: present
+- name: Install dasel
+  ansible.builtin.package:
+    name: dasel
+    state: present
+- name: Install grex
+  ansible.builtin.package:
+    name: grex
+    state: present
+- name: Install lnav
+  ansible.builtin.package:
+    name: lnav
+    state: present
+- name: Install sops
+  ansible.builtin.package:
+    name: sops
+    state: present
+- name: Install sq
+  ansible.builtin.package:
+    name: sq
+    state: present
+- name: Install surge
+  ansible.builtin.package:
+    name: surge
+    state: present
 - name: Configure direnv for zsh
   ansible.builtin.lineinfile:
     path: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
