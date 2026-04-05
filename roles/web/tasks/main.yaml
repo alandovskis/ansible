@@ -17,7 +17,7 @@
     cmd: ~/Downloads/google-cloud-sdk/install.sh
 - name: Install gke-gcloud-auth-plugin
   ansible.builtin.command:
-   cmd: "gcloud components install gke-gcloud-auth-plugin"
+   cmd: "~/Downloads/google-cloud-sdk/bin/gcloud components install gke-gcloud-auth-plugin"
 
 - name: Install IntelliJ IDEA
   ansible.builtin.package:
