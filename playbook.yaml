@@ -4,5 +4,6 @@
     - android
     - embedded
     - desktop
+    - rust
     - web
     - network

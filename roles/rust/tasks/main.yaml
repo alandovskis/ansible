@@ -1,0 +1,15 @@
+- name: Install rustup
+  ansible.builtin.package:
+    name: rustup
+    state: present
+
+- name: Install Rust language server
+  ansible.builtin.command:
+    cmd: rustup component add rust-analyzer
+  register: rust_analyzer_install
+  changed_when: "'installing' in rust_analyzer_install.stdout"
+
+- name: Install RustRover
+  ansible.builtin.package:
+    name: rustrover
+    state: present
