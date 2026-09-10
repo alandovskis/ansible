@@ -23,3 +23,8 @@
   ansible.builtin.package:
     name: intellij-idea
     state: present
+
+- name: Install k3d
+  ansible.builtin.package:
+    name: k3d
+    state: present
