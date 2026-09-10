@@ -28,3 +28,8 @@
   ansible.builtin.package:
     name: k3d
     state: present
+
+- name: Install Apple container
+  ansible.builtin.package:
+    name: container
+    state: present
