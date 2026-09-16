@@ -1,0 +1,90 @@
+- name: Install Node.js (macOS)
+  ansible.builtin.package:
+    name: node
+    state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install Node.js (Debian/Ubuntu)
+  ansible.builtin.package:
+    name:
+      - nodejs
+      - npm
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Check for existing Claude Code install
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
+  register: claude_code_binary
+
+- name: Download Claude Code installer
+  ansible.builtin.get_url:
+    url: https://downloads.claude.ai/claude-code-releases/bootstrap.sh
+    dest: "{{ ansible_facts['env']['HOME'] }}/Downloads/claude-code-install.sh"
+    mode: "0755"
+    checksum: sha256:3a68d3406cf674e17bed1733a4dcf37805e2e47d87417700007d7e1aa766a944
+  when: not claude_code_binary.stat.exists
+
+- name: Run Claude Code installer
+  ansible.builtin.command:
+    cmd: "{{ ansible_facts['env']['HOME'] }}/Downloads/claude-code-install.sh stable"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
+
+- name: Check for existing ccstatusline install
+  ansible.builtin.shell:
+    cmd: command -v ccstatusline
+  register: ccstatusline_check
+  changed_when: false
+  failed_when: false
+
+- name: Install ccstatusline
+  community.general.npm:
+    name: ccstatusline
+    global: true
+    state: present
+  when: ccstatusline_check.rc != 0
+
+- name: Check for existing Codex CLI install
+  ansible.builtin.shell:
+    cmd: command -v codex
+  register: codex_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Codex CLI
+  community.general.npm:
+    name: "@openai/codex"
+    global: true
+    state: present
+  when: codex_check.rc != 0
+
+- name: Check for existing Claude settings
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['env']['HOME'] }}/.claude/settings.json"
+  register: claude_settings_file
+
+- name: Load existing Claude settings
+  ansible.builtin.slurp:
+    src: "{{ ansible_facts['env']['HOME'] }}/.claude/settings.json"
+  register: claude_settings_raw
+  when: claude_settings_file.stat.exists
+
+- name: Ensure Claude config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.claude"
+    state: directory
+    mode: "0755"
+
+- name: Configure ccstatusline as the Claude Code status line
+  ansible.builtin.copy:
+    content: >-
+      {{
+        (claude_settings_raw.content | b64decode | from_json
+          if claude_settings_file.stat.exists
+          else {})
+        | combine({'statusLine': {'type': 'command', 'command': 'ccstatusline'}}, recursive=True)
+        | to_nice_json
+      }}
+    dest: "{{ ansible_facts['env']['HOME'] }}/.claude/settings.json"
+    mode: "0644"
