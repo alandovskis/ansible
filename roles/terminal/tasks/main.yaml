@@ -2,3 +2,8 @@
   ansible.builtin.package:
     name: ghostty
     state: present
+
+- name: Install zoxide
+  ansible.builtin.package:
+    name: zoxide
+    state: present
