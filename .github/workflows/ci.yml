@@ -1,0 +1,41 @@
+---
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-ubuntu:
+    name: Run playbook (Ubuntu 26.04)
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:26.04
+    env:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Ansible and prerequisites
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends \
+            ansible-core \
+            python3-pip \
+            git \
+            sudo \
+            curl \
+            ca-certificates
+
+      - name: Install Ansible collections
+        run: ansible-galaxy collection install -r requirements.yml
+
+      - name: Syntax check
+        run: ansible-playbook playbook.yaml --syntax-check
+
+      - name: Run playbook
+        run: ansible-playbook playbook.yaml -i localhost, -c local
+
+      - name: Re-run playbook (idempotency check)
+        run: ansible-playbook playbook.yaml -i localhost, -c local
