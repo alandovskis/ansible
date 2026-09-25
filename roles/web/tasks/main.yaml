@@ -1,35 +1,55 @@
-- name: Install Node 22
+- name: Install Node 22 (macOS)
   ansible.builtin.package:
     name: node@22
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install Node 22 (Debian/Ubuntu)
+  ansible.builtin.package:
+    name:
+      - nodejs
+      - npm
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Download Google Cloud SDK
   ansible.builtin.get_url:
      url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-darwin-arm.tar.gz
      dest: ~/Downloads/google-cloud-sdk.tar.gz
      checksum: sha256:f2b1d74fe8a4997f9e699f349282f69a23f11e9e37eb9d48e9d164f7a08ecd1d
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Extract Google Cloud SDK
   ansible.builtin.unarchive:
     src: ~/Downloads/google-cloud-sdk.tar.gz
     dest: ~/Downloads
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install Google Cloud SDK
   ansible.builtin.shell:
     cmd: ~/Downloads/google-cloud-sdk/install.sh
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install gke-gcloud-auth-plugin
   ansible.builtin.command:
    cmd: "~/Downloads/google-cloud-sdk/bin/gcloud components install gke-gcloud-auth-plugin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Install IntelliJ IDEA
   ansible.builtin.package:
     name: intellij-idea
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Install k3d
   ansible.builtin.package:
     name: k3d
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Install Apple container
   ansible.builtin.package:
     name: container
     state: present
+  when: ansible_facts['os_family'] == "Darwin"

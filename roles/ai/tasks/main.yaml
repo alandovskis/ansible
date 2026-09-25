@@ -18,6 +18,13 @@
     path: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
   register: claude_code_binary
 
+- name: Ensure Downloads directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/Downloads"
+    state: directory
+    mode: "0755"
+  when: not claude_code_binary.stat.exists
+
 - name: Download Claude Code installer
   ansible.builtin.get_url:
     url: https://downloads.claude.ai/claude-code-releases/bootstrap.sh

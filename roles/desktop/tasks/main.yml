@@ -2,90 +2,148 @@
   ansible.builtin.package:
     name: bat
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install bandwhich
   ansible.builtin.package:
     name: bandwhich
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install top replacement
   ansible.builtin.package:
     name: bottom
     state: present
-- name: Install du replacement
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install du replacement (macOS)
   ansible.builtin.package:
     name: dust
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install du replacement (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: du-dust
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
 - name: Install ping replacement
   ansible.builtin.package:
     name: gping
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install time replacement
   ansible.builtin.package:
     name: hyperfine
     state: present
-- name: Install find replacement
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install find replacement (macOS)
   ansible.builtin.package:
     name: fd
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install find replacement (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: fd-find
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
 - name: Install ps replacement
   ansible.builtin.package:
     name: procs
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install grep replacement
   ansible.builtin.package:
     name: ripgrep
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install rm replacement
   ansible.builtin.package:
     name: rm-improved
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install traceroute replacement
   ansible.builtin.package:
     name: trippy
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install cloc replacement
   ansible.builtin.package:
     name: tokei
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install terminal replacement
   ansible.builtin.package:
     name: Warp
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install application launcher
   ansible.builtin.package:
     name: quicksilver
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install cd replacement
   ansible.builtin.package:
     name: zoxide
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install direnv
   ansible.builtin.package:
     name: direnv
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install dasel
   ansible.builtin.package:
     name: dasel
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install grex
   ansible.builtin.package:
     name: grex
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install lnav
   ansible.builtin.package:
     name: lnav
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
 - name: Install sops
   ansible.builtin.package:
     name: sops
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install sq
   ansible.builtin.package:
     name: sq
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Install surge
   ansible.builtin.package:
     name: surge
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
 - name: Configure direnv for zsh
   ansible.builtin.lineinfile:
     path: "{{ ansible_facts['env']['HOME'] }}/.zshrc"
@@ -93,22 +151,27 @@
     line: 'eval "$(direnv hook zsh)"'
     insertafter: EOF
     create: true
+
 - name: Install gnu-tar
   ansible.builtin.package:
     name: gnu-tar
     state: present
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Install git
   ansible.builtin.package:
     name: git
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
 
 - name: Install delta
   ansible.builtin.package:
     name: git-delta
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
 
 - name: Install GNU Stow
   ansible.builtin.package:
     name: stow
     state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
