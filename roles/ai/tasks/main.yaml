@@ -38,6 +38,14 @@
     cmd: "{{ ansible_facts['env']['HOME'] }}/Downloads/claude-code-install.sh stable"
     creates: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
 
+- name: Expose claude on PATH for non-login shells (Debian/Ubuntu)
+  ansible.builtin.file:
+    src: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
+    dest: /usr/local/bin/claude
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
 - name: Check for existing ccstatusline install
   ansible.builtin.shell:
     cmd: command -v ccstatusline

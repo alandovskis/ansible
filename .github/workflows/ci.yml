@@ -23,6 +23,7 @@ jobs:
           apt-get install -y --no-install-recommends \
             ansible-core \
             python3-pip \
+            python3-testinfra \
             git \
             sudo \
             curl \
@@ -36,6 +37,9 @@ jobs:
 
       - name: Run playbook
         run: ansible-playbook playbook.yaml -i localhost, -c local
+
+      - name: Verify installed packages
+        run: pytest --hosts='local://' tests/test_packages.py
 
       - name: Re-run playbook (idempotency check)
         run: ansible-playbook playbook.yaml -i localhost, -c local

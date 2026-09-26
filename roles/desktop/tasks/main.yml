@@ -4,6 +4,14 @@
     state: present
   become: "{{ ansible_facts['os_family'] == 'Debian' }}"
 
+- name: Expose bat as `bat` (Debian ships it as batcat)
+  ansible.builtin.file:
+    src: /usr/bin/batcat
+    dest: /usr/local/bin/bat
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
 - name: Install bandwhich
   ansible.builtin.package:
     name: bandwhich
@@ -54,6 +62,14 @@
   become: true
   when: ansible_facts['os_family'] == "Debian"
 
+- name: Expose fd-find as `fd` (Debian ships it as fdfind)
+  ansible.builtin.file:
+    src: /usr/bin/fdfind
+    dest: /usr/local/bin/fd
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
 - name: Install ps replacement
   ansible.builtin.package:
     name: procs
@@ -77,6 +93,14 @@
     name: trippy
     state: present
   become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Expose trippy as `trippy` (Debian's package ships the binary as trip)
+  ansible.builtin.file:
+    src: /usr/bin/trip
+    dest: /usr/local/bin/trippy
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install cloc replacement
   ansible.builtin.package:
