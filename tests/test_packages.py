@@ -8,6 +8,11 @@ Run against the host the playbook targeted, e.g.:
 import pytest
 
 EXPECTED_COMMANDS = [
+    # role: cpp
+    "gcc",
+    "gdb",
+    "make",
+    "clang",
     # role: rust
     "rustup",
     "cargo",
