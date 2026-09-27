@@ -17,6 +17,62 @@
   become: true
   when: ansible_facts['os_family'] == "Debian"
 
+- name: Install CMake
+  ansible.builtin.package:
+    name: cmake
+    state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install Ninja
+  ansible.builtin.package:
+    name: ninja
+    state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install ccache
+  ansible.builtin.package:
+    name: ccache
+    state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install pkg-config
+  ansible.builtin.package:
+    name: pkg-config
+    state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install Doxygen
+  ansible.builtin.package:
+    name: doxygen
+    state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install lcov
+  ansible.builtin.package:
+    name: lcov
+    state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install gcovr
+  ansible.builtin.package:
+    name: gcovr
+    state: present
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+
+- name: Install clang-tidy (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: clang-tidy
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install clang-format (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: clang-format
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
 - name: Install GNU Make (macOS)
   ansible.builtin.package:
     name: make
@@ -68,6 +124,20 @@
   ansible.builtin.file:
     src: "{{ brew_prefix.stdout }}/opt/llvm/bin/clang++"
     dest: "{{ brew_prefix.stdout }}/bin/clang++"
+    state: link
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Expose clang-tidy (bundled in the llvm formula, which is keg-only on macOS)
+  ansible.builtin.file:
+    src: "{{ brew_prefix.stdout }}/opt/llvm/bin/clang-tidy"
+    dest: "{{ brew_prefix.stdout }}/bin/clang-tidy"
+    state: link
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Expose clang-format (bundled in the llvm formula, which is keg-only on macOS)
+  ansible.builtin.file:
+    src: "{{ brew_prefix.stdout }}/opt/llvm/bin/clang-format"
+    dest: "{{ brew_prefix.stdout }}/bin/clang-format"
     state: link
   when: ansible_facts['os_family'] == "Darwin"
 
