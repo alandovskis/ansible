@@ -11,6 +11,7 @@ EXPECTED_COMMANDS = [
     # role: cpp
     "gcc",
     "gdb",
+    "valgrind",
     "make",
     "clang",
     # role: rust

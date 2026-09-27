@@ -12,7 +12,7 @@ roles in order:
 | Role        | Purpose                                                              |
 |-------------|-----------------------------------------------------------------------|
 | `android`   | Android Studio                                                        |
-| `cpp`       | GCC, GDB, GNU Make, Clang, CLion                                       |
+| `cpp`       | GCC, GDB, Valgrind (Debian/Ubuntu only), GNU Make, Clang, CLion        |
 | `desktop`   | Modern CLI replacements (bat, bottom, dust, fd, ripgrep, procs, ...), Warp, Quicksilver, direnv, git, delta, stow |
 | `rust`      | Rust toolchain via rustup, rust-analyzer, RustRover                    |
 | `web`       | Node.js, Google Cloud SDK, IntelliJ IDEA, k3d, Apple container         |
