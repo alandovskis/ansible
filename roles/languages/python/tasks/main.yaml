@@ -1,0 +1,39 @@
+- name: Install Python (macOS)
+  ansible.builtin.package:
+    name: python3
+    state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install Python (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: python3
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install uv (macOS)
+  ansible.builtin.package:
+    name: uv
+    state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install uv (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: uv
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install PyCharm (macOS)
+  ansible.builtin.package:
+    name: pycharm
+    state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install PyCharm (Debian/Ubuntu)
+  community.general.snap:
+    name: pycharm
+    classic: true
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"

@@ -66,6 +66,9 @@ EXPECTED_COMMANDS = [
     "codex",
     # role: languages/typescript
     "tsc",
+    # role: languages/python
+    "python3",
+    "uv",
     # role: desktop / network (strict-confinement snaps)
     "bandwhich",
     "bottom",
@@ -82,6 +85,7 @@ EXPECTED_SNAPS = [
     "rustrover",
     "webstorm",
     "intellij-idea",
+    "pycharm",
 ]
 
 

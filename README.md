@@ -17,6 +17,7 @@ roles in order:
 | `languages/rust`          | Rust toolchain via rustup, rust-analyzer, RustRover                    |
 | `languages/javascript`    | Node.js, WebStorm                                                      |
 | `languages/typescript`    | TypeScript compiler                                                    |
+| `languages/python`        | Python, uv, PyCharm                                                    |
 | `cloud`                   | IntelliJ IDEA                                                          |
 | `containerization`        | Apple container                                                        |
 | `k8s`                     | k3d                                                                    |
