@@ -17,8 +17,16 @@
   register: rust_analyzer_install
   changed_when: "'installing' in rust_analyzer_install.stdout"
 
-- name: Install RustRover
+- name: Install RustRover (macOS)
   ansible.builtin.package:
     name: rustrover
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install RustRover (Debian/Ubuntu)
+  community.general.snap:
+    name: rustrover
+    classic: true
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"

@@ -36,11 +36,19 @@
    cmd: "~/Downloads/google-cloud-sdk/bin/gcloud components install gke-gcloud-auth-plugin"
   when: ansible_facts['os_family'] == "Darwin"
 
-- name: Install IntelliJ IDEA
+- name: Install IntelliJ IDEA (macOS)
   ansible.builtin.package:
     name: intellij-idea
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install IntelliJ IDEA (Debian/Ubuntu)
+  community.general.snap:
+    name: intellij-idea
+    classic: true
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install k3d
   ansible.builtin.package:

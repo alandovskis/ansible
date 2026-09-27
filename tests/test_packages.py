@@ -42,30 +42,57 @@ EXPECTED_COMMANDS = [
     "tcpflow",
     # role: terminal
     "ghostty",
+    "difftastic",
     # role: web / ai
     "node",
     "npm",
     "claude",
     "ccstatusline",
     "codex",
+    # role: desktop / network (strict-confinement snaps)
+    "bandwhich",
+    "bottom",
+    "grex",
+    "doggo",
+]
+
+# GUI apps installed via classic-confinement snaps. Not meaningfully
+# testable with --version (they need a display), so we only assert the
+# snap itself installed rather than that a command is on PATH.
+EXPECTED_SNAPS = [
+    "android-studio",
+    "clion",
+    "rustrover",
+    "intellij-idea",
 ]
 
 
 @pytest.mark.parametrize("command", EXPECTED_COMMANDS)
-def test_command_is_on_path(host, command):
+def test_command_is_on_path(host, command: str) -> None:
     assert host.exists(command), f"expected `{command}` to be on PATH after the playbook runs"
 
 
-def test_rust_analyzer_runs(host):
+@pytest.mark.parametrize("snap_name", EXPECTED_SNAPS)
+def test_snap_is_installed(host, snap_name: str) -> None:
+    result = host.run(f"snap list {snap_name}")
+    assert result.rc == 0, result.stderr
+
+
+def test_rust_analyzer_runs(host) -> None:
     result = host.run("rust-analyzer --version")
     assert result.rc == 0, result.stderr
 
 
-def test_bat_runs(host):
+def test_bat_runs(host) -> None:
     result = host.run("bat --version")
     assert result.rc == 0, result.stderr
 
 
-def test_delta_runs(host):
+def test_delta_runs(host) -> None:
     result = host.run("delta --version")
+    assert result.rc == 0, result.stderr
+
+
+def test_difftastic_runs(host) -> None:
+    result = host.run("difftastic --version")
     assert result.rc == 0, result.stderr

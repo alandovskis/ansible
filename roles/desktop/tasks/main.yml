@@ -12,17 +12,47 @@
   become: true
   when: ansible_facts['os_family'] == "Debian"
 
-- name: Install bandwhich
+- name: Install bandwhich (macOS)
   ansible.builtin.package:
     name: bandwhich
     state: present
   when: ansible_facts['os_family'] == "Darwin"
 
-- name: Install top replacement
+- name: Install bandwhich (Debian/Ubuntu)
+  community.general.snap:
+    name: bandwhich
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Expose bandwhich on /usr/local/bin (Debian/Ubuntu)
+  ansible.builtin.file:
+    src: /snap/bin/bandwhich
+    dest: /usr/local/bin/bandwhich
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install top replacement (macOS)
   ansible.builtin.package:
     name: bottom
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install top replacement (Debian/Ubuntu)
+  community.general.snap:
+    name: bottom
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Expose bottom on /usr/local/bin (Debian/Ubuntu)
+  ansible.builtin.file:
+    src: /snap/bin/bottom
+    dest: /usr/local/bin/bottom
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install du replacement (macOS)
   ansible.builtin.package:
@@ -138,11 +168,26 @@
     state: present
   become: "{{ ansible_facts['os_family'] == 'Debian' }}"
 
-- name: Install grex
+- name: Install grex (macOS)
   ansible.builtin.package:
     name: grex
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install grex (Debian/Ubuntu)
+  community.general.snap:
+    name: grex
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Expose grex on /usr/local/bin (Debian/Ubuntu)
+  ansible.builtin.file:
+    src: /snap/bin/grex
+    dest: /usr/local/bin/grex
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install lnav
   ansible.builtin.package:

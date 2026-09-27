@@ -1,5 +1,13 @@
-- name: Install Android Studio
+- name: Install Android Studio (macOS)
   ansible.builtin.package:
     name: android-studio
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install Android Studio (Debian/Ubuntu)
+  community.general.snap:
+    name: android-studio
+    classic: true
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"

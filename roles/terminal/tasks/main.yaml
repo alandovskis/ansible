@@ -10,8 +10,23 @@
     state: present
   become: "{{ ansible_facts['os_family'] == 'Debian' }}"
 
-- name: Install difftastic
+- name: Install difftastic (macOS)
   ansible.builtin.package:
     name: difftastic
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install difftastic (Debian/Ubuntu)
+  community.general.snap:
+    name: difftastic
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Expose difftastic on /usr/local/bin (Debian/Ubuntu)
+  ansible.builtin.file:
+    src: /snap/bin/difftastic
+    dest: /usr/local/bin/difftastic
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"

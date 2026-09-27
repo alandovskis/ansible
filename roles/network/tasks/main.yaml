@@ -4,11 +4,26 @@
     state: present
   when: ansible_facts['os_family'] == "Darwin"
 
-- name: Install DNS lookup tool
+- name: Install DNS lookup tool (macOS)
   ansible.builtin.package:
     name: doggo
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install DNS lookup tool (Debian/Ubuntu)
+  community.general.snap:
+    name: doggo
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Expose doggo on /usr/local/bin (Debian/Ubuntu)
+  ansible.builtin.file:
+    src: /snap/bin/doggo
+    dest: /usr/local/bin/doggo
+    state: link
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install HTTP client
   ansible.builtin.package:

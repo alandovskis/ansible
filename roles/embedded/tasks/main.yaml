@@ -1,5 +1,13 @@
-- name: Install CLion
+- name: Install CLion (macOS)
   ansible.builtin.package:
     name: clion
     state: present
   when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install CLion (Debian/Ubuntu)
+  community.general.snap:
+    name: clion
+    classic: true
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
