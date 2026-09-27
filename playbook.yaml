@@ -9,6 +9,7 @@
     - languages/typescript
     - cloud
     - containerization
+    - k8s
     - network
     - ai
     - terminal

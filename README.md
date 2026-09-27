@@ -18,7 +18,8 @@ roles in order:
 | `languages/javascript`    | Node.js, WebStorm                                                      |
 | `languages/typescript`    | TypeScript compiler                                                    |
 | `cloud`                   | IntelliJ IDEA                                                          |
-| `containerization`        | k3d, Apple container                                                   |
+| `containerization`        | Apple container                                                        |
+| `k8s`                     | k3d                                                                    |
 | `network`                 | Networking tools (nmap, mtr, httpie, iperf3, doggo, masscan, ...)      |
 | `ai`                      | Node.js, Claude Code, Codex CLI, ccstatusline                          |
 | `terminal`                | Ghostty, zoxide, difftastic                                            |
