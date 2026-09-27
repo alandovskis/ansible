@@ -2,10 +2,13 @@
 - hosts: localhost
   roles:
     - android
-    - cpp
+    - languages/cpp
     - desktop
-    - rust
-    - web
+    - languages/rust
+    - languages/javascript
+    - languages/typescript
+    - cloud
+    - containerization
     - network
     - ai
     - terminal

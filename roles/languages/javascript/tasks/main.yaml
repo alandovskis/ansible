@@ -1,0 +1,28 @@
+- name: Install Node 22 (macOS)
+  ansible.builtin.package:
+    name: node@22
+    state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install Node 22 (Debian/Ubuntu)
+  ansible.builtin.package:
+    name:
+      - nodejs
+      - npm
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install WebStorm (macOS)
+  ansible.builtin.package:
+    name: webstorm
+    state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install WebStorm (Debian/Ubuntu)
+  community.general.snap:
+    name: webstorm
+    classic: true
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"

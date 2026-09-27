@@ -9,16 +9,19 @@ Debian/Ubuntu (via `apt`).
 A single playbook (`playbook.yaml`) applies to `localhost` and runs the following
 roles in order:
 
-| Role        | Purpose                                                              |
-|-------------|-----------------------------------------------------------------------|
-| `android`   | Android Studio                                                        |
-| `cpp`       | GCC, GDB, Valgrind (Debian/Ubuntu only), CMake, Ninja, ccache, pkg-config, Doxygen, lcov, gcovr, clang-tidy, clang-format, GNU Make, Clang, CLion |
-| `desktop`   | Modern CLI replacements (bat, bottom, dust, fd, ripgrep, procs, ...), Warp, Quicksilver, direnv, git, delta, stow |
-| `rust`      | Rust toolchain via rustup, rust-analyzer, RustRover                    |
-| `web`       | Node.js, Google Cloud SDK, IntelliJ IDEA, k3d, Apple container         |
-| `network`   | Networking tools (nmap, mtr, httpie, iperf3, doggo, masscan, ...)      |
-| `ai`        | Node.js, Claude Code, Codex CLI, ccstatusline                          |
-| `terminal`  | Ghostty, zoxide, difftastic                                            |
+| Role                      | Purpose                                                              |
+|---------------------------|-----------------------------------------------------------------------|
+| `android`                 | Android Studio                                                        |
+| `languages/cpp`           | GCC, GDB, Valgrind (Debian/Ubuntu only), CMake, Ninja, ccache, pkg-config, Doxygen, lcov, gcovr, clang-tidy, clang-format, GNU Make, Clang, CLion |
+| `desktop`                 | Modern CLI replacements (bat, bottom, dust, fd, ripgrep, procs, ...), Warp, Quicksilver, direnv, git, delta, stow |
+| `languages/rust`          | Rust toolchain via rustup, rust-analyzer, RustRover                    |
+| `languages/javascript`    | Node.js, WebStorm                                                      |
+| `languages/typescript`    | TypeScript compiler                                                    |
+| `cloud`                   | IntelliJ IDEA                                                          |
+| `containerization`        | k3d, Apple container                                                   |
+| `network`                 | Networking tools (nmap, mtr, httpie, iperf3, doggo, masscan, ...)      |
+| `ai`                      | Node.js, Claude Code, Codex CLI, ccstatusline                          |
+| `terminal`                | Ghostty, zoxide, difftastic                                            |
 
 Each role's tasks live under `roles/<name>/tasks/`. Most tasks are guarded with
 `ansible_facts['os_family']` checks so the same playbook can run on macOS or

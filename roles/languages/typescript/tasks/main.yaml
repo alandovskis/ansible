@@ -1,0 +1,13 @@
+- name: Check for existing TypeScript compiler install
+  ansible.builtin.shell:
+    cmd: command -v tsc
+  register: tsc_check
+  changed_when: false
+  failed_when: false
+
+- name: Install TypeScript
+  community.general.npm:
+    name: typescript
+    global: true
+    state: present
+  when: tsc_check.rc != 0

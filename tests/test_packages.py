@@ -8,7 +8,7 @@ Run against the host the playbook targeted, e.g.:
 import pytest
 
 EXPECTED_COMMANDS = [
-    # role: cpp
+    # role: languages/cpp
     "gcc",
     "gdb",
     "valgrind",
@@ -23,7 +23,7 @@ EXPECTED_COMMANDS = [
     "clang-format",
     "make",
     "clang",
-    # role: rust
+    # role: languages/rust
     "rustup",
     "cargo",
     "rustc",
@@ -58,12 +58,14 @@ EXPECTED_COMMANDS = [
     # role: terminal
     "ghostty",
     "difftastic",
-    # role: web / ai
+    # role: languages/javascript / ai
     "node",
     "npm",
     "claude",
     "ccstatusline",
     "codex",
+    # role: languages/typescript
+    "tsc",
     # role: desktop / network (strict-confinement snaps)
     "bandwhich",
     "bottom",
@@ -78,6 +80,7 @@ EXPECTED_SNAPS = [
     "android-studio",
     "clion",
     "rustrover",
+    "webstorm",
     "intellij-idea",
 ]
 

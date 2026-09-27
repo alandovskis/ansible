@@ -1,0 +1,27 @@
+- name: Install IntelliJ IDEA (macOS)
+  ansible.builtin.package:
+    name: intellij-idea
+    state: present
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Get Homebrew prefix (macOS)
+  ansible.builtin.command:
+    cmd: brew --prefix
+  register: brew_prefix
+  changed_when: false
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Expose IntelliJ IDEA as `intellij-idea` (macOS ships its launcher as idea)
+  ansible.builtin.file:
+    src: "{{ brew_prefix.stdout }}/bin/idea"
+    dest: "{{ brew_prefix.stdout }}/bin/intellij-idea"
+    state: link
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install IntelliJ IDEA (Debian/Ubuntu)
+  community.general.snap:
+    name: intellij-idea
+    classic: true
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
