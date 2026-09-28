@@ -23,11 +23,18 @@
     state: present
   become: "{{ ansible_facts['os_family'] == 'Debian' }}"
 
-- name: Install Ninja
+- name: Install Ninja (macOS)
   ansible.builtin.package:
     name: ninja
     state: present
-  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+  when: ansible_facts['os_family'] == "Darwin"
+
+- name: Install Ninja (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: ninja-build
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install ccache
   ansible.builtin.package:
