@@ -104,6 +104,12 @@
     dest: "{{ ansible_facts['env']['HOME'] }}/.claude/settings.json"
     mode: "0644"
 
+- name: Register Claude Code's official plugin marketplace
+  ansible.builtin.command:
+    cmd: claude plugin marketplace add anthropics/claude-plugins-official
+  register: claude_marketplace_add
+  changed_when: "'already on disk' not in claude_marketplace_add.stdout"
+
 - name: Update Claude Code's official plugin marketplace cache
   ansible.builtin.command:
     cmd: claude plugin marketplace update claude-plugins-official
