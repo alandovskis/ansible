@@ -104,6 +104,11 @@
     dest: "{{ ansible_facts['env']['HOME'] }}/.claude/settings.json"
     mode: "0644"
 
+- name: Update Claude Code's official plugin marketplace cache
+  ansible.builtin.command:
+    cmd: claude plugin marketplace update claude-plugins-official
+  changed_when: false
+
 - name: Install Superpowers plugin for Claude Code
   ansible.builtin.command:
     cmd: claude plugin install superpowers@claude-plugins-official --scope user --yes --json
