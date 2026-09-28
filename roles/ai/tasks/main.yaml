@@ -103,3 +103,30 @@
       }}
     dest: "{{ ansible_facts['env']['HOME'] }}/.claude/settings.json"
     mode: "0644"
+
+- name: Install Superpowers plugin for Claude Code
+  ansible.builtin.command:
+    cmd: claude plugin install superpowers@claude-plugins-official --scope user --yes --json
+  register: claude_superpowers_install
+  changed_when: "'already installed' not in (claude_superpowers_install.stdout | from_json).message"
+
+- name: Enable Superpowers plugin for Claude Code
+  ansible.builtin.command:
+    cmd: claude plugin enable superpowers@claude-plugins-official --scope user --json
+  register: claude_superpowers_enable
+  changed_when: (claude_superpowers_enable.stdout | from_json).outcome == "ok"
+  failed_when: >-
+    (claude_superpowers_enable.stdout | from_json).outcome != "ok" and
+    (claude_superpowers_enable.stdout | from_json).failureCode != "already_in_goal_state"
+
+- name: Check if Superpowers plugin is installed for Codex CLI
+  ansible.builtin.shell:
+    cmd: "codex plugin list --json | grep -q '\"pluginId\": \"superpowers@openai-curated-remote\"'"
+  register: codex_superpowers_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Superpowers plugin for Codex CLI
+  ansible.builtin.command:
+    cmd: codex plugin add superpowers@openai-curated-remote
+  when: codex_superpowers_check.rc != 0
