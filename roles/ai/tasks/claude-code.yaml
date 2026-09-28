@@ -1,18 +1,3 @@
-- name: Install Node.js (macOS)
-  ansible.builtin.package:
-    name: node
-    state: present
-  when: ansible_facts['os_family'] == "Darwin"
-
-- name: Install Node.js (Debian/Ubuntu)
-  ansible.builtin.package:
-    name:
-      - nodejs
-      - npm
-    state: present
-  become: true
-  when: ansible_facts['os_family'] == "Debian"
-
 - name: Check for existing Claude Code install
   ansible.builtin.stat:
     path: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
@@ -59,20 +44,6 @@
     global: true
     state: present
   when: ccstatusline_check.rc != 0
-
-- name: Check for existing Codex CLI install
-  ansible.builtin.shell:
-    cmd: command -v codex
-  register: codex_check
-  changed_when: false
-  failed_when: false
-
-- name: Install Codex CLI
-  community.general.npm:
-    name: "@openai/codex"
-    global: true
-    state: present
-  when: codex_check.rc != 0
 
 - name: Check for existing Claude settings
   ansible.builtin.stat:
@@ -129,22 +100,3 @@
   failed_when: >-
     (claude_superpowers_enable.stdout | from_json).outcome != "ok" and
     (claude_superpowers_enable.stdout | from_json).failureCode != "already_in_goal_state"
-
-- name: Check Codex CLI authentication status
-  ansible.builtin.command:
-    cmd: codex login status
-  register: codex_login_status
-  changed_when: false
-  failed_when: false
-
-- name: Check if Superpowers plugin is installed for Codex CLI
-  ansible.builtin.shell:
-    cmd: "codex plugin list --json | grep -q '\"pluginId\": \"superpowers@openai-curated-remote\"'"
-  register: codex_superpowers_check
-  changed_when: false
-  failed_when: false
-
-- name: Install Superpowers plugin for Codex CLI
-  ansible.builtin.command:
-    cmd: codex plugin add superpowers@openai-curated-remote
-  when: codex_superpowers_check.rc != 0 and codex_login_status.rc == 0

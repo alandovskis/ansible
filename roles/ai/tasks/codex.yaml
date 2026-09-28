@@ -1,0 +1,32 @@
+- name: Check for existing Codex CLI install
+  ansible.builtin.shell:
+    cmd: command -v codex
+  register: codex_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Codex CLI
+  community.general.npm:
+    name: "@openai/codex"
+    global: true
+    state: present
+  when: codex_check.rc != 0
+
+- name: Check Codex CLI authentication status
+  ansible.builtin.command:
+    cmd: codex login status
+  register: codex_login_status
+  changed_when: false
+  failed_when: false
+
+- name: Check if Superpowers plugin is installed for Codex CLI
+  ansible.builtin.shell:
+    cmd: "codex plugin list --json | grep -q '\"pluginId\": \"superpowers@openai-curated-remote\"'"
+  register: codex_superpowers_check
+  changed_when: false
+  failed_when: false
+
+- name: Install Superpowers plugin for Codex CLI
+  ansible.builtin.command:
+    cmd: codex plugin add superpowers@openai-curated-remote
+  when: codex_superpowers_check.rc != 0 and codex_login_status.rc == 0
