@@ -1,5 +1,7 @@
 # ansible
 
+[![CI](https://github.com/alandovskis/ansible/actions/workflows/ci.yml/badge.svg)](https://github.com/alandovskis/ansible/actions/workflows/ci.yml)
+
 Personal Ansible playbook for provisioning my development machines. It installs and
 configures the tools I use day to day, targeting both macOS (via Homebrew) and
 Debian/Ubuntu (via `apt`).
@@ -25,7 +27,10 @@ roles in order:
 | `ai`                      | Node.js, Claude Code, Codex CLI, ccstatusline                          |
 | `terminal`                | Ghostty, zoxide, difftastic                                            |
 
-Each role's tasks live under `roles/<name>/tasks/`. Most tasks are guarded with
+Each role's tasks live under `roles/<name>/tasks/`. The `ai` role is split into one task file per
+client (`node.yaml`, `claude-code.yaml`, `codex.yaml`), pulled together by `tasks/main.yaml`; note
+that `tasks_from` is not honoured for entries in a play's `roles:` list, so the split files must be
+imported from `main.yaml` rather than selected from the playbook. Most tasks are guarded with
 `ansible_facts['os_family']` checks so the same playbook can run on macOS or
 Debian/Ubuntu, installing the appropriate package for each.
 
@@ -57,6 +62,11 @@ Limit to a single role with tags or `--start-at-task`, or comment out roles in
 
 ## CI
 
-GitHub Actions (`.github/workflows/ci.yml`) runs the playbook against an
-`ubuntu:26.04` container on every push and pull request: a syntax check, a full
-run, and a second run to verify idempotency.
+GitHub Actions (`.github/workflows/ci.yml`) runs on pushes to `main` and on pull requests, on an
+Ubuntu 26.04 runner: a syntax check, a full run, the `tests/test_packages.py` checks that every
+expected command is on `PATH`, and a second run that must report `changed=0` to prove the
+playbook is idempotent.
+
+## Licence
+
+MIT, see [LICENSE](LICENSE).
