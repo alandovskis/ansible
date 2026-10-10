@@ -12,10 +12,5 @@
     - containerization
     - k8s
     - network
-    - role: ai
-      tasks_from: node.yaml
-    - role: ai
-      tasks_from: claude-code.yaml
-    - role: ai
-      tasks_from: codex.yaml
+    - ai
     - terminal

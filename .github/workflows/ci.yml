@@ -3,12 +3,22 @@ name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test-ubuntu:
     name: Run playbook (Ubuntu 26.04)
     runs-on: ubuntu-26.04
+    timeout-minutes: 30
     env:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -42,4 +52,11 @@ jobs:
         run: pytest --hosts='local://' tests/test_packages.py
 
       - name: Re-run playbook (idempotency check)
-        run: ansible-playbook playbook.yaml -i localhost, -c local
+        shell: bash
+        run: |
+          ansible-playbook playbook.yaml -i localhost, -c local | tee rerun.log
+          if ! grep -Eq 'changed=0[[:space:]]' rerun.log; then
+            echo "::error::The second run changed things; the playbook is not idempotent."
+            grep -B3 '^changed:' rerun.log || true
+            exit 1
+          fi
