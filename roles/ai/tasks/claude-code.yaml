@@ -74,6 +74,12 @@
       }}
     dest: "{{ ansible_facts['env']['HOME'] }}/.claude/settings.json"
     mode: "0644"
+  # Claude Code rewrites settings.json in its own formatting when plugins are installed, so
+  # writing unconditionally would reformat (and report a change) on every run.
+  when: >-
+    not claude_settings_file.stat.exists or
+    ((claude_settings_raw.content | b64decode | from_json).statusLine | default({}))
+      != {'type': 'command', 'command': 'ccstatusline'}
 
 - name: Register Claude Code's official plugin marketplace
   ansible.builtin.command:
