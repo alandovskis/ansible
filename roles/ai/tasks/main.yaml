@@ -1,0 +1,10 @@
+# One task file per AI client. Node.js comes first because Claude Code's statusline
+# and the Codex CLI are installed with npm.
+- name: Node.js
+  ansible.builtin.import_tasks: node.yaml
+
+- name: Claude Code
+  ansible.builtin.import_tasks: claude-code.yaml
+
+- name: Codex CLI
+  ansible.builtin.import_tasks: codex.yaml
